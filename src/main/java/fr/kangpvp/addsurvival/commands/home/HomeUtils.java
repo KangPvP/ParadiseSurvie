@@ -1,5 +1,6 @@
 package fr.kangpvp.addsurvival.commands.home;
 
+import fr.kangpvp.addsurvival.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -74,7 +75,7 @@ public class HomeUtils {
 
     }
 
-    public static int getMaxHome(Player player){
+ /*   public static int getMaxHome(Player player){
         String titreName =  PlaceholderAPI.setPlaceholders(player, "%luckperms_first_group_on_tracks_titres%");
         String gradeName = PlaceholderAPI.setPlaceholders(player, "%luckperms_first_group_on_tracks_grades%");   //if gradeName == null  =>  gradeName == ""
 
@@ -96,13 +97,12 @@ public class HomeUtils {
         }else {
             return homeNb;
         }
-    }
+    }*/
 
     public static List<String> getHomes(Player player) {
+        PlayerHomes playerHome = PlayerHomes.getPlayerHomesFromUUID(player.getUniqueId());
 
-        PlayerHomes playerHomes = Main.INSTANCE.tabPlayerToPlayerHome.get(player.getUniqueId().toString());
-
-        return playerHomes.getHomeList();
+        return playerHome.getHomeList();
     }
 
 

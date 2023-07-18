@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 public final class Main extends JavaPlugin {
 
+    public String prefix = "§9§lP§2§lSurvie §f| §r";
     private static Main instance;
     private DbManager dbManager;
 

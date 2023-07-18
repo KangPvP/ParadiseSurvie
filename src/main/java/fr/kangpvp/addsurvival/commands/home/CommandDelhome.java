@@ -1,5 +1,6 @@
 package fr.kangpvp.addsurvival.commands.home;
 
+import fr.kangpvp.addsurvival.Main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,7 +24,7 @@ public class CommandDelhome implements CommandExecutor, TabCompleter {
             PlayerHomes playerHomes = Main.INSTANCE.tabPlayerToPlayerHome.get(uuid.toString());
 
             if(args.length != 1){
-                player.sendMessage(Main.INSTANCE.prefix() + "§7Ajouter le nom de votre home /delhome [name]");
+                player.sendMessage(Main.getInstance().prefix + "§7Ajouter le nom de votre home /delhome [name]");
                 return false;
             }
 
@@ -35,11 +36,11 @@ public class CommandDelhome implements CommandExecutor, TabCompleter {
             int nbActualHome = homesList.size();
 
             if(nbActualHome == 0){
-                player.sendMessage(Main.INSTANCE.prefix() + "§7Vous n'avez pas de home");
+                player.sendMessage(Main.getInstance().prefix + "§7Vous n'avez pas de home");
                 return false;
             }
             if(!homesList.contains(nameHome)){
-                player.sendMessage(Main.INSTANCE.prefix() + "§7Vous n'avez pas de §fhome sous ce nom");
+                player.sendMessage(Main.getInstance().prefix + "§7Vous n'avez pas de §fhome sous ce nom");
                 return false;
             }
 
@@ -49,10 +50,10 @@ public class CommandDelhome implements CommandExecutor, TabCompleter {
             playerHomes.setHomeList(homesList);
             playerHomes.setHomeLoc(homesLoc);
 
-            Main.INSTANCE.listPlayerHomes.set(index, playerHomes);
+            Main.getInstance().listPlayerHomes.set(index, playerHomes);
             Main.INSTANCE.tabPlayerToPlayerHome.remove(nameHome);
 
-            player.sendMessage(Main.INSTANCE.prefix() + "§7Vous avez supprimé votre home §f" + nameHome);
+            player.sendMessage(Main.getInstance().prefix + "§7Vous avez supprimé votre home §f" + nameHome);
 
         }
         return false;

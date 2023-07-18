@@ -1,5 +1,6 @@
 package fr.kangpvp.addsurvival.commands.home;
 
+import fr.kangpvp.addsurvival.Main;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,10 +19,10 @@ public class CommandHome implements CommandExecutor, TabCompleter {
         if(sender instanceof Player){
             Player player = (Player) sender;
 
-            PlayerHomes playerHomes = Main.INSTANCE.tabPlayerToPlayerHome.get(player.getUniqueId().toString());
+            PlayerHomes playerHomes = PlayerHomes.getPlayerHomesFromUUID(player.getUniqueId());
 
             if(args.length != 1){
-                player.sendMessage(Main.INSTANCE.prefix() + "§7Ajoutez le nom de votre home. /home [name]");
+                player.sendMessage(Main.getInstance().prefix + "§7Ajoutez le nom de votre home. /home [name]");
                 return false;
             }
 
@@ -30,7 +31,7 @@ public class CommandHome implements CommandExecutor, TabCompleter {
             ArrayList<String> homesList = playerHomes.getHomeList();
 
             if(!homesList.contains(nameHome)){
-                player.sendMessage(Main.INSTANCE.prefix() +  "§7Vous n'avez pas de home sous ce nom");
+                player.sendMessage(Main.getInstance().prefix +  "§7Vous n'avez pas de home sous ce nom");
                 return false;
             }
 

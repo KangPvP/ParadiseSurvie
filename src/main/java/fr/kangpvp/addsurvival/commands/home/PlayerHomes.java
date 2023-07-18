@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class PlayerHomes {
 
@@ -55,22 +56,22 @@ public class PlayerHomes {
         this.homeLoc = homeLoc;
     }
 
-    public static PlayerHomes getPlayerHomesFromUUID(String uuid) {
+    public static PlayerHomes getPlayerHomesFromUUID(UUID uuid) {
         System.out.println(Main.getInstance().listPlayerHomes);
 
         if(Main.getInstance().listPlayerHomes.size() == 0){ System.out.println(ChatColor.RED + "[ERREUR] La list listPlayerHomes est vide"); return null;}
 
-        for (PlayerHomes playerHome : Main.INSTANCE.listPlayerHomes) {
-            if (playerHome.getUuid().equals(uuid)) {
+        for (PlayerHomes playerHome : Main.getInstance().listPlayerHomes) {
+            if (playerHome.getUuid().equals(uuid.toString())) {
                 return playerHome;
             }
         }
         return null;
     }
 
-    public static PlayerHomes playerDataHomes(Integer index, Player player, ArrayList<String> homeList, HashMap<String, String> homeLoc){
+    public static PlayerHomes playerDataHomes(Player player, ArrayList<String> homeList, HashMap<String, String> homeLoc){
 
-        return new PlayerHomes(index, player.getUniqueId().toString(), player.getName(), homeList, homeLoc);
+        return new PlayerHomes(player.getUniqueId().toString(), player.getName(), homeList, homeLoc);
     }
 
 }
