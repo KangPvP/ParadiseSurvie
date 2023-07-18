@@ -1,0 +1,4 @@
+name: AddSurvival
+version: '${project.version}'
+main: fr.kangpvp.addsurvival.AddSurvival
+api-version: 1.20
