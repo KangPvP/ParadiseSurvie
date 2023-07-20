@@ -12,6 +12,47 @@ import java.util.Map;
 
 public class HomeUtils {
 
+    public static String hashToStr(HashMap<String, Location> dataHome){
+        String dataStrHome = "";
+        if(dataHome.size() != 0){
+            for(Map.Entry<String, Location> entry : dataHome.entrySet()) {
+                String key = entry.getKey();
+                Location loc = entry.getValue();
+                String value = locToString(loc);
+                dataStrHome = "/" + key + ";" + value;
+
+                if(dataStrHome.charAt(0) == '/'){
+                    dataStrHome.substring(1, dataStrHome.length());
+                }
+            }
+
+        }
+
+        return dataStrHome;
+    }
+
+    public static HashMap<String, Location> strToHash(String str){
+        HashMap<String, Location> dataHomes = new HashMap<>();
+
+
+        if(str.length() != 0){
+
+            if(str.charAt(0) == '/'){
+                str = str.substring(1);
+            }
+
+            String[] listHomes = str.split("/");
+
+            for(String homeData : listHomes){
+                String[] listHome = homeData.split(";");
+                dataHomes.put(listHome[0], stringToLoc(listHome[1]));
+            }
+        }
+
+        return dataHomes;
+    }
+
+
     public static String locToString(Location loc){
 
         String world = loc.getWorld().getName();
@@ -24,41 +65,6 @@ public class HomeUtils {
         // world:x:y:z:yaw:pitch
         return world + ":" + x + ":" + y + ":" + z + ":" + yaw + ":" + pitch;
     }
-    public static String homesData = "/maison;world:62:-1:63:-90:154/homes;world:62:-1:63:-90:154/home;world:62:-1:63:-90:154";
-
-    public void testHome(){
-        System.out.println( getHomesMap(homesData) );
-    }
-
-
-    public static String getHomesData(HashMap<String, Location> dataHome){
-        StringBuilder dataStrHome = new StringBuilder();
-        if(dataHome.size() != 0){
-            for(Map.Entry<String, Location> entry : dataHome.entrySet()) {
-                String key = entry.getKey();
-                Location loc = entry.getValue();
-                String value = locToString(loc);
-                dataStrHome.append("/").append(key).append(";").append(value);
-            }
-        }
-        return dataStrHome.toString();
-    }
-
-    public HashMap<String, Location> getHomesMap(String str){
-        HashMap<String, Location> dataHomes = new HashMap<>();
-
-        if(str.length() != 0){
-            String[] listHomes = str.split("/");
-
-            for(String homeData : listHomes){
-                String[] listHome = homeData.split(";");
-                dataHomes.put(listHome[0], stringToLoc(listHome[1]));
-            }
-        }
-
-        return dataHomes;
-    }
-
 
     public static Location stringToLoc(String str) {
 
@@ -102,6 +108,7 @@ public class HomeUtils {
     public static List<String> getHomes(Player player) {
         PlayerHomes playerHome = PlayerHomes.getPlayerHomesFromUUID(player.getUniqueId());
 
+        assert playerHome != null;
         return playerHome.getHomeList();
     }
 

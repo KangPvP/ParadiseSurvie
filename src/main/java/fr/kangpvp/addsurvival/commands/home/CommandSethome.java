@@ -1,6 +1,7 @@
 package fr.kangpvp.addsurvival.commands.home;
 
 import fr.kangpvp.addsurvival.Main;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,9 +35,9 @@ public class CommandSethome implements CommandExecutor {
             }
 
             ArrayList<String> homesList = playerHomes.getHomeList();     //get homesList in PlayerHome
-            HashMap<String, String> homeLoc = playerHomes.getHomeLoc();    //get homesLoc in PlayerHome
+            HashMap<String, Location> homeLoc = playerHomes.getHomeLoc();    //get homesLoc in PlayerHome
 
-            int nbMaxHomes = HomeUtils.getMaxHome(player);
+            int nbMaxHomes = 3; //HomeUtils.getMaxHome(player);
             int nbActualHome = homesList.size();
 
             if(nbActualHome > nbMaxHomes){
@@ -49,15 +50,14 @@ public class CommandSethome implements CommandExecutor {
             }
 
             homesList.add(nameHome);  //edit homesList
-            homeLoc.put(nameHome, HomeUtils.locToString(player.getLocation()));   //edit homesList
+            homeLoc.put(nameHome, player.getLocation());   //edit homesList
 
             playerHomes.setHomeList(homesList);  //save homeList in PlayerHome
             playerHomes.setHomeLoc(homeLoc);  //save homeLoc in PlayerHome
 
-            Main.getInstance().listPlayerHomes.set(index, playerHomes);   //save List PlayerHome
+            playerHomes.savePlayerHome(player); //save List PlayerHome
 
             player.sendMessage(Main.getInstance().prefix + "Votre home " + nameHome + " a été défini ici");
-
         }
 
         return false;

@@ -1,6 +1,6 @@
 database:
-  host: "151.80.13.0"
-  user: "u121_ENOls6cjDz"
-  pass: "FWXZMn^28=LgILv^sW5LXZ8b"
-  dbName: "s121_DataLastarria16"
+  host: "31.207.33.127"
+  user: "root"
+  pass: "Timpilou13"
+  dbName: "paradise"
   port: 3306

@@ -35,11 +35,8 @@ public class CommandHome implements CommandExecutor, TabCompleter {
                 return false;
             }
 
-            HashMap<String, String> homeLoc = playerHomes.getHomeLoc();
-
-            String strLocation = homeLoc.get(nameHome);
-
-            Location locTp = (Location) HomeUtils.stringToLoc(strLocation);
+            HashMap<String, Location> homeLoc = playerHomes.getHomeLoc();
+            Location locTp = homeLoc.get(nameHome);
 
             player.teleport(locTp);
 
@@ -51,13 +48,13 @@ public class CommandHome implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        Player player = (Player) sender;
+       /* Player player = (Player) sender;
         PlayerHomes playerHomes = Main.INSTANCE.tabPlayerToPlayerHome.get(player.getUniqueId().toString());
 
         if (args.length == 1){
             ArrayList<String> homesList = playerHomes.getHomeList();
             return homesList;
-        }
+        }*/
         return null;
     }
 

@@ -1,7 +1,7 @@
 package fr.kangpvp.addsurvival.commands.home;
 
-import fr.kangpvp.addsurvival.Main;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -10,18 +10,17 @@ import java.util.UUID;
 
 public class PlayerHomes {
 
+    public static HashMap<UUID, PlayerHomes> mapPlayerHomes = new HashMap<>();
     private String uuid;
     private String playerName;
     private ArrayList<String> homeList;
-    private HashMap<String, String> homeLoc;
+    private HashMap<String, Location> homeLoc;
 
-    public PlayerHomes(String uuid, String playerName, ArrayList<String> homeList, HashMap<String, String> homeLoc) {
+    public PlayerHomes(String uuid, String playerName, ArrayList<String> homeList, HashMap<String, Location> homeLoc) {
         this.uuid = uuid;
         this.playerName = playerName;
         this.homeList = homeList;
         this.homeLoc = homeLoc;
-
-
     }
 
     public String getUuid() {
@@ -36,7 +35,7 @@ public class PlayerHomes {
         return homeList;
     }
 
-    public HashMap<String, String> getHomeLoc() {
+    public HashMap<String, Location> getHomeLoc() {
         return homeLoc;
     }
 
@@ -52,24 +51,22 @@ public class PlayerHomes {
         this.homeList = homeList;
     }
 
-    public void setHomeLoc(HashMap<String, String> homeLoc) {
+    public void setHomeLoc(HashMap<String, Location> homeLoc) {
         this.homeLoc = homeLoc;
     }
 
-    public static PlayerHomes getPlayerHomesFromUUID(UUID uuid) {
-        System.out.println(Main.getInstance().listPlayerHomes);
-
-        if(Main.getInstance().listPlayerHomes.size() == 0){ System.out.println(ChatColor.RED + "[ERREUR] La list listPlayerHomes est vide"); return null;}
-
-        for (PlayerHomes playerHome : Main.getInstance().listPlayerHomes) {
-            if (playerHome.getUuid().equals(uuid.toString())) {
-                return playerHome;
-            }
-        }
-        return null;
+    public void savePlayerHome(Player player){
+        mapPlayerHomes.put(player.getUniqueId(), this);
     }
 
-    public static PlayerHomes playerDataHomes(Player player, ArrayList<String> homeList, HashMap<String, String> homeLoc){
+    public static PlayerHomes getPlayerHomesFromUUID(UUID uuid) {
+
+        if(mapPlayerHomes.size() == 0){ System.out.println(ChatColor.RED + "[ERREUR] La list mapPlayerHomes est vide"); return null;}
+
+        return mapPlayerHomes.get(uuid);
+    }
+
+    public static PlayerHomes playerDataHomes(Player player, ArrayList<String> homeList, HashMap<String, Location> homeLoc){
 
         return new PlayerHomes(player.getUniqueId().toString(), player.getName(), homeList, homeLoc);
     }

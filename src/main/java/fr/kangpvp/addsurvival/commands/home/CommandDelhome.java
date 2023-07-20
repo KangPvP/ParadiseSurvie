@@ -1,6 +1,7 @@
 package fr.kangpvp.addsurvival.commands.home;
 
 import fr.kangpvp.addsurvival.Main;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,12 +17,12 @@ public class CommandDelhome implements CommandExecutor, TabCompleter {
 
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand( CommandSender sender,  Command command,  String label, String[] args) {
         if(sender instanceof Player){
             Player player = (Player) sender;
             UUID uuid = player.getUniqueId();
 
-            PlayerHomes playerHomes = Main.INSTANCE.tabPlayerToPlayerHome.get(uuid.toString());
+            PlayerHomes playerHomes = PlayerHomes.getPlayerHomesFromUUID(uuid);
 
             if(args.length != 1){
                 player.sendMessage(Main.getInstance().prefix + "§7Ajouter le nom de votre home /delhome [name]");
@@ -30,9 +31,9 @@ public class CommandDelhome implements CommandExecutor, TabCompleter {
 
             String nameHome = args[0];
 
-            int index = playerHomes.getIndex();
+            assert playerHomes != null;
             ArrayList<String> homesList = playerHomes.getHomeList();
-            HashMap<String, String> homesLoc = playerHomes.getHomeLoc();
+            HashMap<String, Location> homesLoc = playerHomes.getHomeLoc();
             int nbActualHome = homesList.size();
 
             if(nbActualHome == 0){
@@ -50,8 +51,7 @@ public class CommandDelhome implements CommandExecutor, TabCompleter {
             playerHomes.setHomeList(homesList);
             playerHomes.setHomeLoc(homesLoc);
 
-            Main.getInstance().listPlayerHomes.set(index, playerHomes);
-            Main.INSTANCE.tabPlayerToPlayerHome.remove(nameHome);
+            playerHomes.savePlayerHome(player);
 
             player.sendMessage(Main.getInstance().prefix + "§7Vous avez supprimé votre home §f" + nameHome);
 
@@ -63,16 +63,12 @@ public class CommandDelhome implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
         Player player = (Player) sender;
-        PlayerHomes playerHomes = Main.INSTANCE.tabPlayerToPlayerHome.get(player.getUniqueId().toString());
+        //PlayerHomes playerHomes = Main.INSTANCE.tabPlayerToPlayerHome.get(player.getUniqueId().toString());
 
         if (args.length == 1){
-            ArrayList<String> homesList = playerHomes.getHomeList();
-            return homesList;
+            //ArrayList<String> homesList = playerHomes.getHomeList();
+            //return homesList;
         }
         return null;
     }
-
-
-
-
 }
