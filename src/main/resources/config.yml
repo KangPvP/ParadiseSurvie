@@ -1,6 +1,6 @@
 database:
   host: "31.207.33.127"
-  user: "root"
-  pass: "Timpilou13"
+  user: "addsurvival"
+  pass: "H2OxcGXsflSd8JvrwGlh6KW6s2rER63i"
   dbName: "paradise"
   port: 3306

@@ -26,7 +26,7 @@ public class JoinListener implements Listener {
 
         try{
             Connection connection = playerConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT uuid, name, homes FROM player WHERE uuid = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT uuid, name, homes FROM dataplayers WHERE uuid = ?");
 
             preparedStatement.setString(1, uuid.toString());
 
@@ -65,7 +65,7 @@ public class JoinListener implements Listener {
     private void createUserDb(Connection connection, Player player){
         try {
             Statement st = connection.createStatement();
-            String sql = "SELECT id FROM player ORDER BY id DESC LIMIT 1";
+            String sql = "SELECT id FROM dataplayers ORDER BY id DESC LIMIT 1";
             ResultSet rs = st.executeQuery(sql);
 
             int id = 0;
@@ -77,7 +77,7 @@ public class JoinListener implements Listener {
             rs.close();
             st.close();
 
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO player (id, uuid, name, homes, join_at, update_at) VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO dataplayers (id, uuid, name, homes, join_at, update_at) VALUES (?, ?, ?, ?, ?, ?)");
             long time = System.currentTimeMillis();
 
             preparedStatement.setInt(1, id + 1);
