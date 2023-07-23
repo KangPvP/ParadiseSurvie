@@ -37,7 +37,7 @@ public class CommandSethome implements CommandExecutor {
             ArrayList<String> homesList = playerHomes.getHomeList();     //get homesList in PlayerHome
             HashMap<String, Location> homeLoc = playerHomes.getHomeLoc();    //get homesLoc in PlayerHome
 
-            int nbMaxHomes = 3; //HomeUtils.getMaxHome(player);
+            int nbMaxHomes = HomeUtils.getMaxHome(player);
             int nbActualHome = homesList.size();
 
             if(nbActualHome > nbMaxHomes){
@@ -56,6 +56,7 @@ public class CommandSethome implements CommandExecutor {
             playerHomes.setHomeLoc(homeLoc);  //save homeLoc in PlayerHome
 
             playerHomes.savePlayerHome(player); //save List PlayerHome
+            Main.getInstance().getHomeUtils().saveHomeDb(player);
 
             player.sendMessage(Main.getInstance().prefix + "Votre home " + nameHome + " a été défini ici");
         }

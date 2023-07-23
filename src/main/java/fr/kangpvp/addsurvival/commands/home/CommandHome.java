@@ -39,6 +39,20 @@ public class CommandHome implements CommandExecutor, TabCompleter {
             Location locTp = homeLoc.get(nameHome);
 
             player.teleport(locTp);
+            /*String[] guiSetup = {
+                    "  s i z  ",
+                    "  ggggg  ",
+                    "  fpdnl  "
+            };
+
+
+
+            InventoryGui gui = InventoryGui.get( Main.getInstance().homesGui );
+            gui.show(player);*/
+
+
+
+
 
         }
 
@@ -48,13 +62,14 @@ public class CommandHome implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-       /* Player player = (Player) sender;
-        PlayerHomes playerHomes = Main.INSTANCE.tabPlayerToPlayerHome.get(player.getUniqueId().toString());
+        Player player = (Player) sender;
+        PlayerHomes playerHomes = PlayerHomes.getPlayerHomesFromUUID(player.getUniqueId());
 
         if (args.length == 1){
+            assert playerHomes != null;
             ArrayList<String> homesList = playerHomes.getHomeList();
             return homesList;
-        }*/
+        }
         return null;
     }
 

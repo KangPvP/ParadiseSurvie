@@ -52,6 +52,7 @@ public class CommandDelhome implements CommandExecutor, TabCompleter {
             playerHomes.setHomeLoc(homesLoc);
 
             playerHomes.savePlayerHome(player);
+            Main.getInstance().getHomeUtils().saveHomeDb(player); //SQL save
 
             player.sendMessage(Main.getInstance().prefix + "§7Vous avez supprimé votre home §f" + nameHome);
 

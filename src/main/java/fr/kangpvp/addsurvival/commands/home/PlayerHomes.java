@@ -1,6 +1,5 @@
 package fr.kangpvp.addsurvival.commands.home;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -61,9 +60,11 @@ public class PlayerHomes {
 
     public static PlayerHomes getPlayerHomesFromUUID(UUID uuid) {
 
-        if(mapPlayerHomes.size() == 0){ System.out.println(ChatColor.RED + "[ERREUR] La list mapPlayerHomes est vide"); return null;}
-
-        return mapPlayerHomes.get(uuid);
+        if(mapPlayerHomes.size() == 0){ return null;}
+        if(mapPlayerHomes.containsKey(uuid)){
+            return mapPlayerHomes.get(uuid);
+        }
+        return null;
     }
 
     public static PlayerHomes playerDataHomes(Player player, ArrayList<String> homeList, HashMap<String, Location> homeLoc){

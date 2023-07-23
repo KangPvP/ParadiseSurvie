@@ -1,29 +1,35 @@
 package fr.kangpvp.addsurvival.commands.home;
 
 import fr.kangpvp.addsurvival.Main;
+import fr.kangpvp.addsurvival.database.DbConnection;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class HomeUtils {
 
-    public static String hashToStr(HashMap<String, Location> dataHome){
+    public HomeUtils(){
+
+    }
+
+    public String hashToStr(HashMap<String, Location> dataHome){
         String dataStrHome = "";
-        if(dataHome.size() != 0){
+        if(dataHome.size() != 0) {
+
             for(Map.Entry<String, Location> entry : dataHome.entrySet()) {
                 String key = entry.getKey();
                 Location loc = entry.getValue();
                 String value = locToString(loc);
-                dataStrHome = "/" + key + ";" + value;
+                dataStrHome = dataStrHome + "/" + key + ";" + value;
 
-                if(dataStrHome.charAt(0) == '/'){
-                    dataStrHome.substring(1, dataStrHome.length());
-                }
             }
 
         }
@@ -31,7 +37,9 @@ public class HomeUtils {
         return dataStrHome;
     }
 
-    public static HashMap<String, Location> strToHash(String str){
+
+
+    public HashMap<String, Location> strToHash(String str){
         HashMap<String, Location> dataHomes = new HashMap<>();
 
 
@@ -53,7 +61,7 @@ public class HomeUtils {
     }
 
 
-    public static String locToString(Location loc){
+    public String locToString(Location loc){
 
         String world = loc.getWorld().getName();
         double x = loc.getX();
@@ -66,7 +74,7 @@ public class HomeUtils {
         return world + ":" + x + ":" + y + ":" + z + ":" + yaw + ":" + pitch;
     }
 
-    public static Location stringToLoc(String str) {
+    public Location stringToLoc(String str) {
 
         String[] list = str.split(":");
 
@@ -81,35 +89,61 @@ public class HomeUtils {
 
     }
 
- /*   public static int getMaxHome(Player player){
-        String titreName =  PlaceholderAPI.setPlaceholders(player, "%luckperms_first_group_on_tracks_titres%");
-        String gradeName = PlaceholderAPI.setPlaceholders(player, "%luckperms_first_group_on_tracks_grades%");   //if gradeName == null  =>  gradeName == ""
+    public static int getMaxHome(Player player){
 
-        Titre titre = Titres.getGradeFromName(titreName.toLowerCase());
+        return permHomesNb(player) + permHomesNbAdd(player);
 
-        int homeNb;
-        if(titre == null) {
-            homeNb = 2;
-        }else {
-            homeNb = titre.getHomes();
+    }
+
+    public static int permHomesNb(Player player){
+        if(player.hasPermission("psurvie.homes.nb1.15")){
+            return 15;
+        } else if(player.hasPermission("psurvie.homes.nb1.10")){
+            return 10;
+        } else if(player.hasPermission("psurvie.homes.nb1.5")){
+            return 5;
+        } else if(player.hasPermission("psurvie.homes.nb1.1")){
+            return 1;
         }
+        return 1;
+    }
 
-        if(gradeName.equals("VIP")) {
-            return homeNb + 3;
-        }else if(gradeName.equals("Heros")){
-            return homeNb + 7;
-        }else if(gradeName.equals("Legende")){
-            return homeNb + 12;
-        }else {
-            return homeNb;
+    public static int permHomesNbAdd(Player player){
+        if(player.hasPermission("psurvie.homes.nb2.2")){
+            return 0;
+        }else if(player.hasPermission("psurvie.homes.nb2.1")){
+            return 1;
+        } else if(player.hasPermission("psurvie.homes.nb2.0")){
+            return 2;
+        } else {
+            return 1;
         }
-    }*/
+    }
 
-    public static List<String> getHomes(Player player) {
-        PlayerHomes playerHome = PlayerHomes.getPlayerHomesFromUUID(player.getUniqueId());
+    public void saveHomeDb(Player player){
 
-        assert playerHome != null;
-        return playerHome.getHomeList();
+        UUID uuid = player.getUniqueId();
+        PlayerHomes playerHomes = PlayerHomes.getPlayerHomesFromUUID(uuid);
+        assert playerHomes != null;
+
+        String homesData = Main.getInstance().getHomeUtils().hashToStr(playerHomes.getHomeLoc());
+
+        long time = System.currentTimeMillis();
+
+        DbConnection playerConnection = Main.getInstance().getDbManager().getPlayerConnection();
+        String sql = "UPDATE dataplayers SET homes = ?, update_at = ? WHERE uuid = '" + uuid + "'";
+
+        try {
+            Connection connection = playerConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1, homesData );
+            preparedStatement.setTimestamp(2, new Timestamp(time));
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

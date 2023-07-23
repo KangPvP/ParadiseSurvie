@@ -1,8 +1,8 @@
 package fr.kangpvp.addsurvival.listeners;
 
 import fr.kangpvp.addsurvival.Main;
-import fr.kangpvp.addsurvival.commands.home.HomeUtils;
 import fr.kangpvp.addsurvival.commands.home.PlayerHomes;
+import fr.kangpvp.addsurvival.data.PlayerDataManager;
 import fr.kangpvp.addsurvival.database.DbConnection;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -22,6 +22,8 @@ public class JoinListener implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
+        PlayerDataManager.setData(player);
+
         DbConnection playerConnection = Main.getInstance().getDbManager().getPlayerConnection();
 
         try{
@@ -36,10 +38,10 @@ public class JoinListener implements Listener {
                 PlayerHomes playerHomes = PlayerHomes.getPlayerHomesFromUUID(uuid);
 
                 if(playerHomes == null){
-                    String homeData = resultSet.getString("home");
+                    String homeData = resultSet.getString("homes");
 
                     //Save Home in listPlayerHomes
-                    HashMap<String, Location> datahomes = HomeUtils.strToHash(homeData);
+                    HashMap<String, Location> datahomes = Main.getInstance().getHomeUtils().strToHash(homeData);
                     ArrayList<String> nameHomes = new ArrayList<>();
 
                     datahomes.forEach((key, value) -> {
