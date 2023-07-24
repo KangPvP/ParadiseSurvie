@@ -22,7 +22,11 @@ public class JoinListener implements Listener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        PlayerDataManager.setData(player);
+        if(PlayerDataManager.getData(player) == null){
+            PlayerDataManager.setData(player);
+        }
+
+
 
         DbConnection playerConnection = Main.getInstance().getDbManager().getPlayerConnection();
 

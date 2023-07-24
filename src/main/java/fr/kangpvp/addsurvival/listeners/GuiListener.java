@@ -16,7 +16,7 @@ public class GuiListener implements Listener {
         Player player = (Player) event.getWhoClicked();
         PlayerData playerData = PlayerDataManager.getData(player);
 
-        if(playerData.getOpenGui() != null && event.getSlot() != 999) {
+        if(playerData != null && playerData.getOpenGui() != null && event.getSlot() != 999) {
 
             GuiButton guiButton = playerData.getOpenGui().getButtons().get(event.getSlot());
 

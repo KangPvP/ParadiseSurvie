@@ -6,7 +6,10 @@ import java.util.HashMap;
 
 public class PlayerDataManager {
 
+
+    //Reset after Déco Reco
     private static HashMap<Player, PlayerData> dataMap = new HashMap<>();
+
 
     public static void setData(Player player){
         dataMap.put(player, new PlayerData(player));

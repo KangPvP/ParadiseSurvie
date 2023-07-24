@@ -1,5 +1,7 @@
 package fr.kangpvp.addsurvival.manager;
 
+import fr.kangpvp.addsurvival.data.PlayerData;
+import fr.kangpvp.addsurvival.data.PlayerDataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -48,6 +50,8 @@ public class CustomGui {
 
     public void show(Player player){
         player.openInventory(inventory);
+        PlayerData data = PlayerDataManager.getData((Player) player);
+        data.setOpenGui(this);
 
     }
 

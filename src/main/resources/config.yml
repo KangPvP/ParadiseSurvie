@@ -4,3 +4,14 @@ database:
   pass: "H2OxcGXsflSd8JvrwGlh6KW6s2rER63i"
   dbName: "paradise"
   port: 3306
+
+
+# portail-1 = RegionName (WorldGuard)
+portails:
+  portailnb: 2
+  portail0:
+    name: "pnether"
+    commands: "rtp player %player_name% world_nether"
+  portail1:
+    name: "worldspawn"
+    commands: "rtp player %player_name% world"

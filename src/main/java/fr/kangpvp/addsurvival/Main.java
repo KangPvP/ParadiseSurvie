@@ -1,18 +1,13 @@
 package fr.kangpvp.addsurvival;
 
-import de.themoep.inventorygui.InventoryGui;
-import fr.kangpvp.addsurvival.commands.home.CommandDelhome;
-import fr.kangpvp.addsurvival.commands.home.CommandHome;
-import fr.kangpvp.addsurvival.commands.home.CommandSethome;
-import fr.kangpvp.addsurvival.commands.home.HomeUtils;
+import fr.kangpvp.addsurvival.commands.aventages.CommandFurnace;
+import fr.kangpvp.addsurvival.commands.home.*;
 import fr.kangpvp.addsurvival.database.DbManager;
+import fr.kangpvp.addsurvival.listeners.GuiListener;
 import fr.kangpvp.addsurvival.listeners.JoinListener;
-import fr.kangpvp.addsurvival.menu.HomesGui;
+import fr.kangpvp.addsurvival.manager.RegionManage;
 import fr.kangpvp.addsurvival.utils.Config;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
@@ -22,7 +17,7 @@ public final class Main extends JavaPlugin {
     private static HomeUtils homeUtils;
     private DbManager dbManager;
 
-    public InventoryHolder homesGui;
+    private RegionManage regionManage;
 
 
     @Override
@@ -32,21 +27,18 @@ public final class Main extends JavaPlugin {
         Config.init();
         dbManager = new DbManager();
         Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
-        homeUtils = new HomeUtils();
-        homesGui = new HomesGui();
+        Bukkit.getPluginManager().registerEvents(new GuiListener(), this);
 
-        String[] guiSetup = {
-                "  s i z  ",
-                "  ggggg  ",
-                "  fpdnl  "
-        };
-        InventoryGui gui = new InventoryGui(Main.getInstance(), "guiTitle", guiSetup);
-        gui.build();
-        gui.setFiller(new ItemStack(Material.GRAY_STAINED_GLASS, 1)); // fill the empty slots with this
-        //System.out.println(gui.);
+        homeUtils = new HomeUtils();
+        regionManage = new RegionManage();
+
+
         Bukkit.getPluginCommand("delhome").setExecutor(new CommandDelhome());
         Bukkit.getPluginCommand("home").setExecutor(new CommandHome());
         Bukkit.getPluginCommand("sethome").setExecutor(new CommandSethome());
+        Bukkit.getPluginCommand("homes").setExecutor(new CommandHomes());
+        Bukkit.getPluginCommand("furnace").setExecutor(new CommandFurnace());
+
 
 
     }
@@ -63,6 +55,9 @@ public final class Main extends JavaPlugin {
 
     public HomeUtils getHomeUtils(){
         return homeUtils;
+    }
+    public RegionManage getRegionManage() {
+        return regionManage;
     }
     public DbManager getDbManager() {
         return dbManager;
