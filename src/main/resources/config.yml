@@ -6,7 +6,7 @@ database:
   port: 3306
 
 
-# portail-1 = RegionName (WorldGuard)
+# portail-1 = RegionName (WorldGuard )
 portails:
   portailnb: 2
   portail0:
